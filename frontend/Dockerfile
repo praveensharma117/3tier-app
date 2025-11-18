@@ -1,9 +1,13 @@
+# build
 FROM node:20 AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install 
+RUN npm install --silent
 COPY . .
 RUN npm run build
+
+
+# serve
 FROM nginx:stable
 COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80
